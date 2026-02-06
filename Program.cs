@@ -1,7 +1,9 @@
+using System.Security.Cryptography.Xml;
 using api.Data;
 using api.Interfaces;
 using api.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+});
+
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
     options.UseNpgsql(
@@ -19,6 +26,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 });
 
 builder.Services.AddScoped<IStockRepository, StockRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
