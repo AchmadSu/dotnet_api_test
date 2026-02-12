@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Validations;
 
 namespace api.DTOs.Stock
 {
@@ -23,7 +24,7 @@ namespace api.DTOs.Stock
         [MaxLength(20, ErrorMessage = "Industry can not be more than 20 characters")]
         public string? Industry { get; set; }
 
-        [Range(typeof(decimal), "1", "5000000000")]
+        [MarketCapRange]
         public long? MarketCap { get; set; }
     }
 }

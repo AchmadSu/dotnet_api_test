@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Validations;
 
 namespace api.DTOs.Stock
 {
@@ -29,7 +30,7 @@ namespace api.DTOs.Stock
         public string Industry { get; set; } = string.Empty;
 
         [Required]
-        [Range(typeof(decimal), "1", "5000000000")]
+        [MarketCapRange]
         public long MarketCap { get; set; }
     }
 }
