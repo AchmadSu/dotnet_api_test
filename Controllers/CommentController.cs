@@ -7,6 +7,7 @@ using api.DTOs.Stock;
 using api.Interfaces;
 using api.Mappers;
 using api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -27,6 +28,7 @@ namespace api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             if (!ModelState.IsValid)
@@ -41,6 +43,7 @@ namespace api.Controllers
 
         [HttpGet]
         [Route("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> GetById(int id)
         {
             var comment = await _commentRepo.GetByIdAsync(id);
@@ -52,6 +55,7 @@ namespace api.Controllers
         }
 
         [HttpPost("{stockId:int}")]
+        [Authorize]
         public async Task<IActionResult> Create([FromRoute] int stockId, [FromBody] CreateCommentDTO commentDTO)
         {
             if (!ModelState.IsValid)
@@ -70,6 +74,7 @@ namespace api.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCommentRequestDTO updateDto)
         {
             if (!ModelState.IsValid)
@@ -85,6 +90,7 @@ namespace api.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             var commentModel = await _commentRepo.DeleteAsync(id);

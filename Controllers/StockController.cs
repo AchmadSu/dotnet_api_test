@@ -7,6 +7,7 @@ using api.DTOs.Stock;
 using api.Helpers;
 using api.Interfaces;
 using api.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,7 @@ namespace api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
             if (!ModelState.IsValid)
@@ -35,6 +37,7 @@ namespace api.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var stock = await _stockRepository.GetByIDAsync(id);
@@ -46,6 +49,7 @@ namespace api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateStockRequestDTO stockDto)
         {
             if (!ModelState.IsValid)
@@ -57,6 +61,7 @@ namespace api.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockRequestDTO updateDto)
         {
             if (!ModelState.IsValid)
@@ -72,6 +77,7 @@ namespace api.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             var stockModel = await _stockRepository.DeleteAsync(id);
