@@ -110,6 +110,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials()
+    // .WithOrigins("https://your-domain.com") in production
+    .SetIsOriginAllowed(origin => true)
+);
+
 app.UseAuthentication();
 app.UseAuthorization();
 
