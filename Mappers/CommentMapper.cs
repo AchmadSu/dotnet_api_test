@@ -10,14 +10,15 @@ namespace api.Mappers
 {
     public static class CommentMapper
     {
-        public static Comment ToCommentFromCreate(this CreateCommentDTO commentDto, int stockId)
+        public static Comment ToCommentFromCreate(this CreateCommentDTO commentDto, int stockId, string userId)
         {
             return new Comment
             {
                 Title = commentDto.Title,
                 Content = commentDto.Content,
                 CreatedOn = DateTime.UtcNow,
-                StockId = stockId
+                StockId = stockId,
+                AppUserId = userId
             };
         }
 
@@ -29,7 +30,8 @@ namespace api.Mappers
                 Title = commentModel.Title,
                 Content = commentModel.Content,
                 CreatedOn = commentModel.CreatedOn.Date,
-                StockId = commentModel.StockId
+                CreatedBy = commentModel.AppUser.UserName,
+                StockId = commentModel.StockId,
             };
         }
     }

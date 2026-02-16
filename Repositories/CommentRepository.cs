@@ -23,12 +23,12 @@ namespace api.Repositories
 
         public async Task<List<Comment>> GetAllAsync()
         {
-            return await _context.Comments.ToListAsync();
+            return await _context.Comments.Include(a => a.AppUser).ToListAsync();
         }
 
         public async Task<Comment?> GetByIdAsync(int id)
         {
-            return await _context.Comments.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Comments.Include(a => a.AppUser).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Comment> CreateAsync(Comment commentModel)
@@ -38,7 +38,7 @@ namespace api.Repositories
             return commentModel;
         }
 
-        public async Task<Comment?> UpdateAsync(int id, UpdateCommentRequestDTO updateDTO)
+        public async Task<Comment?> UpdateAsync(int id, UpdateCommentRequestDTO updateDTO, string userId)
         {
             var existingComment = await GetByIdAsync(id);
             if (existingComment == null)
@@ -47,6 +47,8 @@ namespace api.Repositories
             }
 
             _mapper.Map(updateDTO, existingComment);
+
+            existingComment.AppUserId = userId;
 
             await _context.SaveChangesAsync();
 
